@@ -6,10 +6,12 @@ const Layout = require('./layoutUser.jsx');
 class Form extends React.Component {
     render() {
         let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+        let daysInWeek = ["sunday", "mon", "tues", "wed", "thurs", "fri", "sat"];
 
         const eventList= this.props.eventHost.map(eachEvent => {
             let dateString = eachEvent._date;
             let day = dateString.getDate();
+            let weekDay = dateString.getDay();
             let month = monthNames[dateString.getMonth()];
             let year = dateString.getFullYear();
 

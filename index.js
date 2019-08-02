@@ -187,8 +187,9 @@ app.get('/user', redirectLogin, (request, response) => {
 
 app.get('/user/events', redirectLogin, (request, response) => {
     console.log('index is reading');
-    const query = 'SELECT * FROM event';
-    pool.query(query, (err, result) => {
+    const query = 'SELECT name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
+    const values = ['hh24:mi'];
+    pool.query(query, values, (err, result) => {
         if (err) {
             console.error('query error:', err.stack);
             response.send( 'query error' );
@@ -212,14 +213,32 @@ app.get('/logout', (request, response) => {
 
 
 
+app.get('/user/events/:id', (request,response) => {
+    response.send("event description page")
+    // console.log('index is reading');
+    // const query = 'SELECT * FROM event';
+    // pool.query(query, (err, result) => {
+    //     if (err) {
+    //         console.error('query error:', err.stack);
+    //         response.send( 'query error' );
+    //     } else {
+    //         var data = {eventDetail: result.rows};
+    //         // console.log (data);
+    //         response.render('indexPage.jsx', data)
+    //     }
+    // });
+});
+
 
 
 ////display indexpage with info from database
 
 app.get('/events/', redirectEventpage, (request,response) => {
     console.log('index is reading');
-    const query = 'SELECT * FROM event';
-    pool.query(query, (err, result) => {
+
+    const query = 'SELECT name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
+    const values = ['hh24:mi'];
+    pool.query(query, values, (err, result) => {
         if (err) {
             console.error('query error:', err.stack);
             response.send( 'query error' );
