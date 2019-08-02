@@ -196,5 +196,38 @@ h3 {
 	text-transform: capitalize;
 }
 
+.eventImage, .eventDescription, .eventDetails, .eventLocation,  .attendEventButton {
+	border: 0.5px solid rgba(33, 33, 33, 0.3);
+	box-sizing: border-box;
+}
+
+#event-card {
+	height:auto;
+	border-radius: none;
+	margin: 0px;
+
+
+}
+.event-home-card a {
+	color: #000;
+}
+.card {
+	width: 100%;
+}
+.cardImage {
+	width: 100%;
+	background-size: cover;
+	background-position: center;
+}
+.cardImage:after {
+	content: "";
+	display: block;
+	padding-bottom: 50%;
+}
+.card .event-image {
+
+    height: 350px;
+    object-fit: cover;
+ }
 
 /* form css for boot strap version */

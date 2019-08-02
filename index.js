@@ -166,7 +166,7 @@ app.get('/login', redirectEventpage, (request, response) => {
 app.get('/user', redirectLogin, (request, response) => {
 
     // response.send(request.cookies.id);
-    let query = 'SELECT name, venue, _date, TO_CHAR(_time, $1) FROM event where account_id = $2';
+    let query = 'SELECT id, name, venue, _date, TO_CHAR(_time, $1) FROM event where account_id = $2';
     var cookieNumber = parseInt(request.cookies.id);
     const values = ['hh24:mi', cookieNumber];
     pool.query(query, values, (err, result) => {
@@ -187,7 +187,7 @@ app.get('/user', redirectLogin, (request, response) => {
 
 app.get('/user/events', redirectLogin, (request, response) => {
     console.log('index is reading');
-    const query = 'SELECT name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
+    const query = 'SELECT id, name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
     const values = ['hh24:mi'];
     pool.query(query, values, (err, result) => {
         if (err) {
@@ -214,19 +214,25 @@ app.get('/logout', (request, response) => {
 
 
 app.get('/user/events/:id', (request,response) => {
-    response.send("event description page")
-    // console.log('index is reading');
-    // const query = 'SELECT * FROM event';
-    // pool.query(query, (err, result) => {
-    //     if (err) {
-    //         console.error('query error:', err.stack);
-    //         response.send( 'query error' );
-    //     } else {
-    //         var data = {eventDetail: result.rows};
-    //         // console.log (data);
-    //         response.render('indexPage.jsx', data)
-    //     }
-    // });
+    // response.send("event description page")
+    console.log(request.params.id);
+
+    const query = 'SELECT name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event WHERE event.id = $2';
+    const values = ['hh24:mi', request.params.id];
+
+    pool.query(query, values, (err, result) => {
+        if (err) {
+            console.error('query error:', err.stack);
+            response.send( 'query error' );
+        } else {
+
+            let data = {name: request.cookies.name,
+                id:request.cookies.id,
+                eventDetails: result.rows[0]};
+            console.log (data);
+            response.render('event.jsx', data)
+        }
+    });
 });
 
 
@@ -236,7 +242,7 @@ app.get('/user/events/:id', (request,response) => {
 app.get('/events/', redirectEventpage, (request,response) => {
     console.log('index is reading');
 
-    const query = 'SELECT name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
+    const query = 'SELECT id, name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
     const values = ['hh24:mi'];
     pool.query(query, values, (err, result) => {
         if (err) {
@@ -252,6 +258,7 @@ app.get('/events/', redirectEventpage, (request,response) => {
 
 // redirect to indexpage
 app.get('/', redirectEventpage, (request,response) => {
+
     response.redirect('/events');
 });
 

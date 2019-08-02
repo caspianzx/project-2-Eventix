@@ -11,28 +11,32 @@ class indexPage extends React.Component {
             let month = monthNames[dateString.getMonth()];
             let year = dateString.getFullYear();
             console.log(month);
-
+            let backgroundImage = "url("+eachEvent.img_url+")";
+            let link = "events/"+ eachEvent.id;
+            console.log(eachEvent);
             return(
-                <div className =" col-4">
-                    <div className="card">
-                        <a href={"events/" + eachEvent.id}>
-                        <img src={eachEvent.img_url} className="card-img-top" alt="..."/>
-                        </a>
-                        <div className="card-body">
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-3 date">
-                                        <p className="dates-text">{month}</p>
-                                        <p className="day-text">{day}</p>
-                                    </div>
-                                    <div className="col-9 title">
-                                        <p className="card-text">{eachEvent.name}</p>
-                                        <p className="information">{weekDay}, {day} {month}, {eachEvent.to_char}</p>
+                <div className ="event-home-card col-4 ">
+
+                    <a href={link}>
+                        <div className="card">
+                            <div className= "cardImage" style={{backgroundImage}}>
+                            </div>
+                            <div className="card-body">
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col-3 date">
+                                            <p className="dates-text">{month}</p>
+                                            <p className="day-text">{day}</p>
+                                        </div>
+                                        <div className="col-9 title">
+                                            <p className="card-text">{eachEvent.name}</p>
+                                            <p className="information">{weekDay}, {day} {month}, {eachEvent.to_char}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 )
         });
