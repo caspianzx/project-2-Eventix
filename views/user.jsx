@@ -31,7 +31,7 @@ class Form extends React.Component {
                         <div className="col-6 offset-3">
                             <h1 className= "create">WELCOME </h1>
                             <p className ="welcomeName"> {this.props.name}</p>
-                            <p>I love Bootstrap! Really.</p>
+                            <br/>
                         </div>
                     </div>
                     <div className="row">

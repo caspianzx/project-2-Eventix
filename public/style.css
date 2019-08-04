@@ -51,13 +51,17 @@ h3 {
 	display: inline-block;
 	border: 1px solid rgba(33, 33, 33, 0.3);
 	box-sizing: border-box;
-	height: 340px;
+	height: 310px;
 	background-color: white;
 	border-radius: 10px;
 	font-family: sans-serif;
 	margin: 5px;
 	overflow: auto;
 	text-decoration: none;
+}
+
+.card-detail-container {
+	margin-top: 10px;
 }
 
 /*
@@ -78,6 +82,23 @@ h3 {
 	padding: 0px;
 }
 
+
+.card-title {
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.event-info {
+	margin-bottom: 5px;
+}
+
+.event-date-venue {
+ border-left:1px solid rgba(33, 33, 33, 0.3);
+}
+
+.event-button {
+	margin-bottom: 10px;
+}
 
 .card-text {
 	font-size: 18px;

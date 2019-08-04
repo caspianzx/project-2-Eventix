@@ -166,6 +166,8 @@ app.get('/login', redirectEventpage, (request, response) => {
 app.get('/user', redirectLogin, (request, response) => {
 
     // response.send(request.cookies.id);
+
+
     let query = 'SELECT id, name, venue, _date, TO_CHAR(_time, $1) FROM event where account_id = $2';
     var cookieNumber = parseInt(request.cookies.id);
     const values = ['hh24:mi', cookieNumber];
@@ -212,12 +214,45 @@ app.get('/logout', (request, response) => {
 });
 
 
+app.post('/user/events/:id', redirectLogin, (request,response) => {
+    // response.send("event description page")
+    console.log(request.params.id);
+    console.log (request.cookies.id);
 
-app.get('/user/events/:id', (request,response) => {
+    let queryText = 'SELECT * FROM attending_event WHERE account_id = $1 AND event_id = $2';
+    const values = [request.cookies.id, request.params.id];
+    //nested query
+    pool.query(queryText, values, (err, res) => {
+        if (err) {
+            console.log("query error", err.message);
+        } else {
+            // console.log("here's all the record!", res.rowCount);
+            if (res.rowCount ===1) {
+                response.send("you have already signed up for this event!");
+            } else {
+                // console.log(request.cookies.id);
+                let queryText = 'INSERT INTO attending_event (account_id, event_id)  VALUES ($1, $2)';
+                const values = [request.cookies.id, request.params.id];
+                pool.query(queryText, values, (err, res) => {
+                    if (err) {
+                        console.log("query error", err.message);
+                    } else {
+                        console.log("successfully signed up for event");
+                        response.redirect('/user');
+                    }
+                });
+            }
+        }
+    });
+});
+
+
+
+app.get('/user/events/:id', redirectLogin, (request,response) => {
     // response.send("event description page")
     console.log(request.params.id);
 
-    const query = 'SELECT name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event WHERE event.id = $2';
+    const query = 'SELECT id, name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event WHERE event.id = $2';
     const values = ['hh24:mi', request.params.id];
 
     pool.query(query, values, (err, result) => {
