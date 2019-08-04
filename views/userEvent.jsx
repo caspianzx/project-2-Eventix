@@ -43,7 +43,7 @@ class indexPage extends React.Component {
 
 
         return (
-            <Layout>
+            <Layout name={this.props.name}>
 
                 <h1 className="head">Upcoming and unique</h1>
                 <div className = "tagline">The best upcoming events, selected for you, by our local teams </div>

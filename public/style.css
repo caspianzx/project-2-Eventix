@@ -251,4 +251,20 @@ h3 {
     object-fit: cover;
  }
 
+
+.list-group {
+	cursor: pointer;
+
+}
+
+.event-name , .event-details {
+	margin-bottom: 5px;
+}
+
+.event-name {
+	font-weight: bold;
+	font-family: "Helvetica";
+	font-size: 18px;
+
+}
 /* form css for boot strap version */

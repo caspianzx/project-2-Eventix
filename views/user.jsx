@@ -17,7 +17,8 @@ class Form extends React.Component {
 
             return(
                 <li className="list-group-item list-group-item-success">
-                    {eachEvent.name} <br/> {day} {month}, {eachEvent.to_char}, {eachEvent.venue}
+                    <p className = "event-name">{eachEvent.name} </p>
+                    <p className = "event-details">{day} {month}, {eachEvent.to_char}, {eachEvent.venue}</p>
                 </li>
                 )
         });
@@ -31,7 +32,8 @@ class Form extends React.Component {
 
             return(
                 <li className="list-group-item list-group-item-success">
-                    {eachEvent.name} <br/> {day} {month}, {eachEvent.to_char}, {eachEvent.venue}
+                    <p className = "event-name">{eachEvent.name} </p>
+                    <p className = "event-details">{day} {month}, {eachEvent.to_char}, {eachEvent.venue}</p>
                 </li>
                 )
         });
