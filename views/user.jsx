@@ -16,7 +16,21 @@ class Form extends React.Component {
             let year = dateString.getFullYear();
 
             return(
-                <li class="list-group-item list-group-item-success">
+                <li className="list-group-item list-group-item-success">
+                    {eachEvent.name} <br/> {day} {month}, {eachEvent.to_char}, {eachEvent.venue}
+                </li>
+                )
+        });
+
+        const eventRegisteredDisplay= this.props.eventRegistered.map(eachEvent => {
+            let dateString = eachEvent._date;
+            let day = dateString.getDate();
+            let weekDay = dateString.getDay();
+            let month = monthNames[dateString.getMonth()];
+            let year = dateString.getFullYear();
+
+            return(
+                <li className="list-group-item list-group-item-success">
                     {eachEvent.name} <br/> {day} {month}, {eachEvent.to_char}, {eachEvent.venue}
                 </li>
                 )
@@ -40,13 +54,16 @@ class Form extends React.Component {
                                 <div className="row">
                                     <div className="col">
                                         <p className ="text-center" id="attending"> Events that you are attending!</p>
+                                        <ul className="list-group">
+                                                {eventRegisteredDisplay}
+                                        </ul>
 
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
                                         <p id="hosting"> Events that you are hosting!</p>
-                                            <ul class="list-group">
+                                            <ul className="list-group">
                                                 {eventList}
                                             </ul>
                                     </div>

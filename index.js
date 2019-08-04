@@ -166,8 +166,6 @@ app.get('/login', redirectEventpage, (request, response) => {
 app.get('/user', redirectLogin, (request, response) => {
 
     // response.send(request.cookies.id);
-
-
     let query = 'SELECT id, name, venue, _date, TO_CHAR(_time, $1) FROM event where account_id = $2';
     var cookieNumber = parseInt(request.cookies.id);
     const values = ['hh24:mi', cookieNumber];
@@ -176,12 +174,32 @@ app.get('/user', redirectLogin, (request, response) => {
             console.error('query error:', err.stack);
             response.send( 'query error' );
         } else {
-            console.log (result.rows)
+            // console.log (result.rows);
 
-            let data = {name: request.cookies.name,
-            id:request.cookies.id,
-            eventHost: result.rows}
-            response.render('user.jsx', data);
+            let eventHost = result.rows;
+            let queryText = 'SELECT event.id, event.name, event.venue , event._date , TO_CHAR(event._time, $1) FROM event INNER JOIN attending_event ON (event.id = attending_event.event_id) WHERE attending_event.account_id = $2'
+
+            const values = ['hh24:mi', request.cookies.id];
+
+            pool.query(queryText, values, (err, result) => {
+                if (err) {
+                    console.error('query error:', err.stack);
+                    response.send( 'query error' );
+                } else {
+                    let eventID = result.rows;
+                    // console.log(eventHost);
+                    // console.log (eventID);
+                    // response.send("query works");
+
+                    let data = {name: request.cookies.name,
+                        id:request.cookies.id,
+                        eventHost: eventHost,
+                        eventRegistered : eventID};
+
+                    // console.log (data);
+                    response.render('user.jsx', data);
+                }
+            });
         }
     });
 });
@@ -226,11 +244,11 @@ app.post('/user/events/:id', redirectLogin, (request,response) => {
         if (err) {
             console.log("query error", err.message);
         } else {
-            // console.log("here's all the record!", res.rowCount);
+            console.log("here's all the record!", res.rowCount);
             if (res.rowCount ===1) {
                 response.send("you have already signed up for this event!");
             } else {
-                // console.log(request.cookies.id);
+                console.log(request.cookies.id);
                 let queryText = 'INSERT INTO attending_event (account_id, event_id)  VALUES ($1, $2)';
                 const values = [request.cookies.id, request.params.id];
                 pool.query(queryText, values, (err, res) => {
