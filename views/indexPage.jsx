@@ -25,8 +25,8 @@ class indexPage extends React.Component {
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-3 date">
-                                            <p className="dates-text">{month}</p>
-                                            <p className="day-text">{day}</p>
+                                            <p className="dates-text">{month} </p>
+                                            <p className="day-text">{day} </p>
                                         </div>
                                         <div className="col-9 title">
                                             <p className="card-text">{eachEvent.name}</p>

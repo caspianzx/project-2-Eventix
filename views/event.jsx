@@ -1,6 +1,6 @@
 var React = require('react');
 
-const Layout = require('./layoutUser.jsx');
+const Layout = require('./layout.jsx');
 
 
 class Form extends React.Component {

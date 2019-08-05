@@ -352,7 +352,7 @@ app.get('/events/:id', (request,response) => {
 
 ////display indexpage with info from database
 
-app.get('/events/', redirectEventpage, (request,response) => {
+app.get('/events', redirectEventpage, (request,response) => {
     console.log('index is reading');
 
     const query = 'SELECT id, name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
