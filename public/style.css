@@ -307,4 +307,9 @@ h3 {
 	font-weight: bold;
 	letter-spacing: 2px;
 }
+
+
+.event-host-padding {
+	padding-left: 0px;
+}
 /* form css for boot strap version */
