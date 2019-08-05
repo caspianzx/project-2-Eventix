@@ -23,7 +23,7 @@ class Form extends React.Component {
                                             <label for="exampleFormControlInput1">Password</label>
                                             <input type="password" name="password"  className="form-control" id="exampleFormControlInput1" placeholder="" required/>
                                         </div>
-                                        <button type="submit" className="btn btn-secondary">Log in!</button>
+                                        <button type="submit" className="btn btn-secondary">Log in</button>
                                     </form>
                                 </div>
                             </div>
