@@ -25,6 +25,9 @@ class Layout extends React.Component {
                 <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul className="navbar-nav ">
                         <li className="nav-item">
+                            <a className="nav-link" href="/">Browse Events<span className="sr-only"></span></a>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="#">Help<span className="sr-only"></span></a>
                         </li>
                     </ul>
