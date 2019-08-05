@@ -14,12 +14,15 @@ class Form extends React.Component {
             let weekDay = dateString.getDay();
             let month = monthNames[dateString.getMonth()];
             let year = dateString.getFullYear();
+            let link = "/user/events/"+ eachEvent.id;
 
             return(
-                <li className="list-group-item list-group-item-success">
-                    <p className = "event-name">{eachEvent.name} </p>
-                    <p className = "event-details">{day} {month}, {eachEvent.to_char}, {eachEvent.venue}</p>
-                </li>
+                <a href= {link}>
+                    <li className="list-group-item list-group-item-success">
+                        <p className = "event-name">{eachEvent.name} </p>
+                        <p className = "event-details">{day} {month}, {eachEvent.to_char}, {eachEvent.venue}</p>
+                    </li>
+                </a>
                 )
         });
 
@@ -29,12 +32,15 @@ class Form extends React.Component {
             let weekDay = dateString.getDay();
             let month = monthNames[dateString.getMonth()];
             let year = dateString.getFullYear();
+            let link = "/user/events/"+ eachEvent.id;
 
             return(
-                <li className="list-group-item list-group-item-success">
-                    <p className = "event-name">{eachEvent.name} </p>
-                    <p className = "event-details">{day} {month}, {eachEvent.to_char}, {eachEvent.venue}</p>
-                </li>
+                <a href= {link}>
+                    <li className="list-group-item list-group-item-success">
+                        <p className = "event-name">{eachEvent.name} </p>
+                        <p className = "event-details">{day} {month}, {eachEvent.to_char}, {eachEvent.venue}</p>
+                    </li>
+                </a>
                 )
         });
 
@@ -54,14 +60,14 @@ class Form extends React.Component {
 
                     <div className="row">
                         <div className="col-6 event-attend" >
-                            <p className ="text-center" id="attending"> Events that you are attending!</p>
+                            <p className ="text-center" id="attending"> Attending</p>
                             <ul className="list-group">
                                     {eventRegisteredDisplay}
                             </ul>
                         </div>
 
                         <div className="col-6 event-host">
-                            <p id="hosting"> Events that you are hosting!</p>
+                            <p id="hosting"> Hosting</p>
                             <ul className="list-group">
                                 {eventList}
                             </ul>

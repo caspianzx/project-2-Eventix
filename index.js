@@ -90,7 +90,8 @@ app.post('/events/new', redirectLogin, (request, response) => {
 
 
 app.get('/events/new', redirectLogin, (request, response) => {
-    response.render('form.jsx');
+    let data={ name: request.cookies.name};
+    response.render('form.jsx', data);
 });
 
 

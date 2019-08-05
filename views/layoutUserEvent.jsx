@@ -25,6 +25,10 @@ class Layout extends React.Component {
                     <ul className="navbar-nav ">
 
                         <li className="nav-item">
+                            <a className="nav-link" href="/user/events">Browse Events<span className="sr-only"></span></a>
+                        </li>
+
+                        <li className="nav-item">
                             <a className="nav-link" href="/user" id="navName">{this.props.name}<span className="sr-only"></span></a>
                         </li>
                         <li className="nav-item">

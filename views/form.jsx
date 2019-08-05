@@ -6,11 +6,11 @@ const Layout = require('./layoutUserEvent.jsx');
 class Form extends React.Component {
     render() {
         return (
-            <Layout>
+            <Layout name = {this.props.name}>
                 <div className="container">
                     <div className="row">
                         <div className="col-6 offset-3">
-                            <h1 className= "create">CREATE AN EVENT</h1>
+                            <h1 className= "create">HOST AN EVENT</h1>
                             <div className="formlist">
                                 <form method="POST" action="/events/new">
                                     <div className="form-group">
@@ -24,7 +24,7 @@ class Form extends React.Component {
 
                                     <div className="form-group">
                                         <label for="exampleFormControlInput1">Date</label>
-                                        <input name="_date"  className="form-control" id="exampleFormControlInput1" placeholder="e.g. YYYY-MM-DD"/>
+                                        <input type="date" name="_date"  className="form-control" id="exampleFormControlInput1" placeholder="e.g. YYYY-MM-DD"/>
                                     </div>
 
                                     <div className="form-group">
