@@ -343,7 +343,7 @@ app.get('/events/:id', (request,response) => {
                 id:request.cookies.id,
                 eventDetails: result.rows[0]};
             console.log (data);
-            response.render('event.jsx', data)
+            response.render('eventNotLoggedIn.jsx', data)
         }
     });
 });
