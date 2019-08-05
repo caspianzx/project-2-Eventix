@@ -16,7 +16,8 @@
   },
   "description": "We will build a web app using Node.js and Express - a Pokedex app.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/caspianzx/pokedex-express-post/issues"
   },
-  "homepage": "https://github.com/caspianzx/pokedex-express-post#readme"
+  "homepage": "https://github.com/caspianzx/pokedex-express-post#readme",
+  "engines" : {
+    "node" : "^6.6.0"
+  }
 }
