@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "alert-node": "^1.2.6",
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-react-views": "^0.11.0",
