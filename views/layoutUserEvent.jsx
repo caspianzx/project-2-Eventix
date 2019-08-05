@@ -17,7 +17,7 @@ class Layout extends React.Component {
         <body>
 
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                <a classNAme="navbar-brand " href="/">Eventix</a>
+                <a className="navbar-brand " href="/">Eventix</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

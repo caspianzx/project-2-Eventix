@@ -7,12 +7,6 @@ const alert =  require('alert-node');
 
 
 
-
-
-
-
-
-
 app.use(cookieParser());
 
 app.use(express.json());
