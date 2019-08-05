@@ -326,6 +326,29 @@ app.get('/user/events/:id', redirectLogin, (request,response) => {
 });
 
 
+app.get('/events/:id', (request,response) => {
+    // response.send("event description page")
+    console.log(request.params.id);
+
+    const query = 'SELECT id, name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event WHERE event.id = $2';
+    const values = ['hh24:mi', request.params.id];
+
+    pool.query(query, values, (err, result) => {
+        if (err) {
+            console.error('query error:', err.stack);
+            response.send( 'query error' );
+        } else {
+
+            let data = {name: request.cookies.name,
+                id:request.cookies.id,
+                eventDetails: result.rows[0]};
+            console.log (data);
+            response.render('event.jsx', data)
+        }
+    });
+});
+
+
 
 ////display indexpage with info from database
 
