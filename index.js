@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const pg = require('pg');
 const cookieParser = require('cookie-parser');
-var moment = require('moment');
+const alert =  require('alert-node');
+
 
 
 
@@ -246,7 +247,9 @@ app.post('/user/events/:id', redirectLogin, (request,response) => {
         } else {
             console.log("here's all the record!", res.rowCount);
             if (res.rowCount ===1) {
-                response.send("you have already signed up for this event!");
+                alert('You have already signed up for this event!');
+                //need to figure a way to update user that they have already signed up
+                response.redirect("/user/events/" + request.params.id);
             } else {
                 console.log(request.cookies.id);
                 let queryText = 'INSERT INTO attending_event (account_id, event_id)  VALUES ($1, $2)';
@@ -256,13 +259,23 @@ app.post('/user/events/:id', redirectLogin, (request,response) => {
                         console.log("query error", err.message);
                     } else {
                         console.log("successfully signed up for event");
-                        response.redirect('/user');
+
+                        //alert user that they have successful signed up for the event
+                        response.redirect('/user/events/success');
                     }
                 });
             }
         }
     });
 });
+
+
+app.get('/user/events/success', redirectLogin, (request,response) => {
+    data={
+        name: request.cookies.name
+    }
+    response.render('Success' , data);
+ })
 
 
 

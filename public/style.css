@@ -265,6 +265,29 @@ h3 {
 	font-weight: bold;
 	font-family: "Helvetica";
 	font-size: 18px;
+}
 
+
+.thankyou {
+	display: block;
+	font-family: "Helvetica";
+	font-weight: lighter;
+	font-size: 40px;
+	letter-spacing: 5px;
+	color: #333;
+	margin-top: 100px;
+	margin-bottom: 40px;
+}
+
+.event-link {
+	font-family: "Helvetica";
+	font-weight: lighter;
+	font-size: 20px;
+	letter-spacing: 2px;
+	color: #333;
+}
+
+.back-to-index {
+	color: #333;
 }
 /* form css for boot strap version */
