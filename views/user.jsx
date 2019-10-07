@@ -8,6 +8,7 @@ class Form extends React.Component {
         let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
         let daysInWeek = ["sunday", "mon", "tues", "wed", "thurs", "fri", "sat"];
 
+         {/* map all events into a list */}
         const eventList= this.props.eventHost.map(eachEvent => {
             let dateString = eachEvent._date;
             let day = dateString.getDate();
@@ -25,7 +26,7 @@ class Form extends React.Component {
                     </li>
                     </ul>
                 </a>
-                )
+            )
         });
 
         const eventRegisteredDisplay= this.props.eventRegistered.map(eachEvent => {
@@ -45,14 +46,14 @@ class Form extends React.Component {
                     </li>
                     </ul>
                 </a>
-                )
+            )
         });
 
 
 
         return (
             <Layout name={this.props.name} >
-
+                  {/* dashboard */}
                 <div className="container">
                     <div className="row">
                         <div className="col-6 offset-3">
@@ -61,7 +62,7 @@ class Form extends React.Component {
                             <br/>
                         </div>
                     </div>
-
+                     {/* dashboard for attending events */}
                     <div className="row">
                         <div className="col-6 event-attend" >
                             <p className ="text-center" id="attending"> Attending</p>
@@ -69,7 +70,7 @@ class Form extends React.Component {
                                     {eventRegisteredDisplay}
                             </ul>
                         </div>
-
+                         {/* dashboard for hosting events */}
                         <div className="col-6 event-host">
                             <p id="hosting"> Hosting</p>
                             <ul className="list-group">
@@ -78,7 +79,6 @@ class Form extends React.Component {
                         </div>
                     </div>
                 </div>
-
             </Layout>
         );
     }

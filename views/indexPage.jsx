@@ -4,6 +4,8 @@ class indexPage extends React.Component {
     render() {
         let monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
         let daysInWeek = ["Sunday", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
+         {/* map all event into a card */}
         const eventCard = this.props.eventDetail.map(eachEvent => {
             let dateString = eachEvent._date;
             let day = dateString.getDate();
@@ -16,7 +18,6 @@ class indexPage extends React.Component {
             console.log(eachEvent);
             return(
                 <div className ="event-home-card col-4 ">
-
                     <a href={link}>
                         <div className="card">
                             <div className= "cardImage" style={{backgroundImage}}>
@@ -38,22 +39,21 @@ class indexPage extends React.Component {
                         </div>
                     </a>
                 </div>
-                )
+            )
         });
 
 
         return (
             <Layout>
-
                 <h1 className="head">Upcoming and unique</h1>
                 <div className = "tagline">The best upcoming events, selected for you, by our local teams </div>
-
+                 {/* list all cards in row */}
                 <div className ="container">
                     <div className ="row">
                             {eventCard}
                     </div>
                 </div>
-        </Layout>
+            </Layout>
         );
     }
 }

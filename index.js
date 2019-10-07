@@ -8,7 +8,6 @@ const alert =  require('alert-node');
 
 
 app.use(cookieParser());
-
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -61,19 +60,16 @@ app.use(express.static(__dirname+'/public/'));
 
 const reactEngine = require('express-react-views').createEngine();
 app.engine('jsx', reactEngine);
-
+//use for overriding update/delete http request
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'));
-
 app.set('views', __dirname + '/views');
-
 app.set('view engine', 'jsx');
 
 
 /////////////////////"model function goes here"/////////////////////////////
 
-///redirect function. need to modify and clean up later
-
+///redirect function to ensure that user has sign in to go to appropriate pages
 const redirectLogin = (request, response, next) => {
     if (!request.cookies.id) {
         response.redirect('/login');
@@ -81,7 +77,7 @@ const redirectLogin = (request, response, next) => {
         next();
     }
 };
-
+//redirect function to event page
 const redirectEventpage = (request, response, next) => {
     if (request.cookies.id) {
         response.redirect('/user/events');
@@ -90,17 +86,19 @@ const redirectEventpage = (request, response, next) => {
     }
 }
 
-
 ////new event form done
 app.post('/events/new', redirectLogin, (request, response) => {
     // console.log("post works!");
     // // console.log(request.body);
+    // reassign request.body to a var
     eventDetails = request.body;
     console.log(eventDetails);
+
+    //pg sql query
     let queryText = 'INSERT INTO event (name, venue, _date, _time, category, img_url, description, account_id)  VALUES ($1, $2, $3 ,$4, $5, $6, $7, $8)';
-
+    //variable to store the info
     const values = [eventDetails.name, eventDetails.venue, eventDetails._date, eventDetails._time, eventDetails.category, eventDetails.img_url, eventDetails.description, request.cookies.id];
-
+    //redirect back to user dashboard if successful
     pool.query(queryText, values, (err, res) => {
         if (err) {
             console.log("query error", err.message);
@@ -111,27 +109,30 @@ app.post('/events/new', redirectLogin, (request, response) => {
     });
 });
 
-
+//get request for new form
 app.get('/events/new', redirectLogin, (request, response) => {
     let data={ name: request.cookies.name};
     response.render('form.jsx', data);
 });
 
-
+//account signup request
 app.post('/signup',  (request, response) => {
     // response.send(`<html>account created!</html>`);
     let queryText = 'SELECT email FROM account WHERE email = $1';
     const values = [request.body.email];
-    //nested query
+    //nested query 1) check if email exist, if not, carry on. if yes, alert user
+    //1st pg query
     pool.query(queryText, values, (err, res) => {
         if (err) {
             console.log("query error", err.message);
         } else {
-            console.log("here's all the email!", res.rowCount);
+            // console.log("here's all the email!", res.rowCount);
+            //alert user if email exist
             if (res.rowCount ===1) {
                 response.send("this email already exist!");
             } else {
                 console.log(request.body.email);
+                //2nd pg sql query
                 let queryText = 'INSERT INTO account (name, email, password)  VALUES ($1, $2, $3)';
                 const values = [request.body.name, request.body.email, request.body.password];
                 pool.query(queryText, values, (err, res) => {
@@ -191,9 +192,12 @@ app.get('/login', redirectEventpage, (request, response) => {
 app.get('/user', redirectLogin, (request, response) => {
 
     // response.send(request.cookies.id);
+    //to_char converts time to 24h format
     let query = 'SELECT id, name, venue, _date, TO_CHAR(_time, $1) FROM event where account_id = $2';
+    //acc id is cookie num
     var cookieNumber = parseInt(request.cookies.id);
     const values = ['hh24:mi', cookieNumber];
+    //nested query
     pool.query(query, values, (err, result) => {
         if (err) {
             console.error('query error:', err.stack);
@@ -201,21 +205,25 @@ app.get('/user', redirectLogin, (request, response) => {
         } else {
             // console.log (result.rows);
 
+            ////assign 1st query result to eventHost
             let eventHost = result.rows;
+            //pg sql query inner join 2 tables
             let queryText = 'SELECT event.id, event.name, event.venue , event._date , TO_CHAR(event._time, $1) FROM event INNER JOIN attending_event ON (event.id = attending_event.event_id) WHERE attending_event.account_id = $2'
 
             const values = ['hh24:mi', request.cookies.id];
-
+            //2nd query
             pool.query(queryText, values, (err, result) => {
                 if (err) {
                     console.error('query error:', err.stack);
                     response.send( 'query error' );
                 } else {
+                    //assign 2nd query results to eventID
                     let eventID = result.rows;
                     // console.log(eventHost);
                     // console.log (eventID);
                     // response.send("query works");
 
+                    ///encapsulate both query results into data var
                     let data = {name: request.cookies.name,
                         id:request.cookies.id,
                         eventHost: eventHost,
@@ -229,7 +237,7 @@ app.get('/user', redirectLogin, (request, response) => {
     });
 });
 
-
+//get request to event page AFTER login
 app.get('/user/events', redirectLogin, (request, response) => {
     console.log('index is reading');
     const query = 'SELECT id, name, venue, img_url, description, _date, TO_CHAR(_time, $1) FROM event';
@@ -248,7 +256,7 @@ app.get('/user/events', redirectLogin, (request, response) => {
 });
 
 
-
+//log out request
 app.get('/logout', (request, response) => {
     response.clearCookie("loggedin");
     response.clearCookie("name");
@@ -256,15 +264,16 @@ app.get('/logout', (request, response) => {
     response.redirect('/');
 });
 
-
+//post request to
 app.post('/user/events/:id', redirectLogin, (request,response) => {
     // response.send("event description page")
     console.log(request.params.id);
     console.log (request.cookies.id);
 
     let queryText = 'SELECT * FROM attending_event WHERE account_id = $1 AND event_id = $2';
+    //request.params.id comes from /id
     const values = [request.cookies.id, request.params.id];
-    //nested query
+    //nested query to check if user has signed up, if yes, alert. if not, sign up
     pool.query(queryText, values, (err, res) => {
         if (err) {
             console.log("query error", err.message);
@@ -293,7 +302,7 @@ app.post('/user/events/:id', redirectLogin, (request,response) => {
     });
 });
 
-
+//get request for successful sign up
 app.get('/user/events/success', redirectLogin, (request,response) => {
     data={
         name: request.cookies.name
@@ -371,15 +380,10 @@ app.get('/events', redirectEventpage, (request,response) => {
 
 // redirect to indexpage
 app.get('/', redirectEventpage, (request,response) => {
-
     response.redirect('/events');
 });
 
 
-
+// listening for 300 port
 const PORT = process.env.PORT || 3000;
-
 const server = app.listen(PORT, () => console.log('~~~ Tuning in to the waves of port '+PORT+' ~~~'));
-
-// app.listen(3000, () => console.log('~~~ Tuning in to the waves of port 3000 ~~~'));
-//
